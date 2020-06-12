@@ -2,7 +2,7 @@
 var activePlayer = 0;
 
 //Total score
-var socres = [0, 0];
+var scores = [0, 0];
 
 // Round score
 var roundScore = 0;
@@ -35,14 +35,49 @@ document.querySelector(".btn-roll").addEventListener("click", function () {
     document.getElementById("current-" + activePlayer).textContent = roundScore;
     roundScore = roundScore + diceNumber;
   } else {
-    //   ene toglogchiin eeljin deer tsugluulsan onoog 0 bolgono
-    roundScore = 0;
-    document.getElementById("current-" + activePlayer).textContent = 0;
-    //   1 buusan tul toglogchiin onoog teglej  eeljig solino
-    // herevee idvehtei toglogch 0 baih ym bol 1 bolgon, ugui bol 0 bolgo
-    activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0);
-    // ulaan tsegiig shiljuuleh
-    document.querySelector(".player-0-panel").classList.toggle("active");
-    document.querySelector(".player-1-panel").classList.toggle("active");
+    switchToNextPlayer();
   }
+});
+// HOLD tovchni event listener
+document.querySelector(".btn-hold").addEventListener("click", function () {
+  //ug toglogchiin eeljni onoog global onoon der ni nemj ugnu
+
+  scores[activePlayer] = scores[activePlayer] + roundScore;
+
+  //   ug toglogch hojson esehiig shalgah
+  if (scores[activePlayer] >= 10) {
+    document.getElementById("name-" + activePlayer).textContent = "WINNER!";
+    document
+      .querySelector(".player-" + activePlayer + "-panel")
+      .classList.add("winner");
+    document
+      .querySelector(".player-" + activePlayer + "-panel")
+      .classList.remove("active");
+  } else {
+    // togllogchiineeljiig solih
+    switchToNextPlayer();
+  }
+  //   delgetsen deer onoo ni uurchlugdunu
+  document.getElementById("score-" + activePlayer).textContent =
+    scores[activePlayer];
+
+  // togllogchiineeljiig solih
+  switchToNextPlayer();
+});
+// toglogchiin erhiig daraaagiin toglogchid shiljuuleh
+function switchToNextPlayer() {
+  //   eeljiin onoog ni 0 bolgoh
+  roundScore = 0;
+  document.getElementById("current-" + activePlayer).textContent = 0;
+  //   1 buusan tul toglogchiin onoog teglej  eeljig solino
+  // herevee idvehtei toglogch 0 baih ym bol 1 bolgon, ugui bol 0 bolgo
+  activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0);
+  // ulaan tsegiig shiljuuleh
+  document.querySelector(".player-0-panel").classList.toggle("active");
+  document.querySelector(".player-1-panel").classList.toggle("active");
+}
+
+// shine togloom ehluuleh tovchluurnii event listener
+document.querySelector(".btn-new").addEventListener("click", function () {
+  alert("fuck");
 });
